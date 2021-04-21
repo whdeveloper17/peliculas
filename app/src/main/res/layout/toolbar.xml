@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/txt_fragmentdetalle_toobar"
+    android:text="@string/txt_toolbarfragment_titulo"
+    android:textSize="25sp"
+    android:textStyle="bold"
+    android:textColor="@color/white"
+    android:layout_marginLeft="10dp"/>
+</FrameLayout>
