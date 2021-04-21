@@ -31,7 +31,7 @@ public class InicioFragmentPresent implements InicioFragmentMVP.Present {
                     model.solicitarPeliculasModel(1);
                 }else{
                     view.ocultarDialog();
-                    view.reintentarLlamarPeliculas("Desea reintentar del nuevo","No hay conexion a internet",1);
+                    view.mostrarPeliculasCache(model.obtenenerPeliculasRoom());
                 }
             }
     }
@@ -64,6 +64,6 @@ public class InicioFragmentPresent implements InicioFragmentMVP.Present {
 
     @Override
     public void errorServidor() {
-
+        view.errorServidor();
     }
 }

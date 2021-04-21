@@ -4,18 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#171717"
     tools:context=".inicio.view.InicioFragment">
 
-
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_fragmentinicio_lista"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/include"
+        android:layout_marginTop="19dp">
 
     </androidx.recyclerview.widget.RecyclerView>
-
 
     <ProgressBar
         android:id="@+id/progress_fragmentinicio_cargando"

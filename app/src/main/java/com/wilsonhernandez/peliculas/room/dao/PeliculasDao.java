@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface PeliculasDao {
     @Query("Select * from peliculasentidad")
-    LiveData<PeliculasEntidad> getListaPelicula();
+    LiveData<List<PeliculasEntidad>> getListaPelicula();
 
     @Insert
     void insertListaPeliculas(List<PeliculasEntidad> peliculasEntidadList);

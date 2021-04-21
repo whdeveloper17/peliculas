@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,9 +51,13 @@ public class InicioFragment extends Fragment implements InicioFragmentMVP.View {
     private int contador=0;
     private ProgressDialog progressDialog;
     private AlertDialog.Builder builder;
+    private  View view;
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
 
     public InicioFragment() {
         // Required empty public constructor
@@ -86,7 +93,7 @@ public class InicioFragment extends Fragment implements InicioFragmentMVP.View {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_inicio, container, false);
+         view=inflater.inflate(R.layout.fragment_inicio, container, false);
         ButterKnife.bind(this,view);
         progressDialog=new ProgressDialog(getContext());
         progressDialog.setMessage("Cargando...");
@@ -132,10 +139,10 @@ public class InicioFragment extends Fragment implements InicioFragmentMVP.View {
                                 break;
                         }
                     }
-                }).setNegativeButton("Cerrar app", new DialogInterface.OnClickListener() {
+                }).setNegativeButton("Cerrar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                onDestroy();
+
             }
         });
         AlertDialog alertDialog=builder.create();
@@ -149,6 +156,17 @@ public class InicioFragment extends Fragment implements InicioFragmentMVP.View {
         recycler_fragmentinicio_lista.setAdapter(adaptadorPeliculas);
         contador= peliculasEntidads.get(peliculasEntidads.size()-1).pagina;
         adaptadorPeliculas.notifyDataSetChanged();
+
+        adaptadorPeliculas.setOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                bundle.putString("nombre",peliculasEntidads.get(recycler_fragmentinicio_lista.getChildAdapterPosition(v)).nombre);
+                bundle.putString("fondo",peliculasEntidads.get(recycler_fragmentinicio_lista.getChildAdapterPosition(v)).imagen_fondo);
+                bundle.putString("descripcion",peliculasEntidads.get(recycler_fragmentinicio_lista.getChildAdapterPosition(v)).description);
+                Navigation.findNavController(view).navigate(R.id.detalleFragment,bundle);
+            }
+        });
 
         recycler_fragmentinicio_lista.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -173,9 +191,30 @@ public class InicioFragment extends Fragment implements InicioFragmentMVP.View {
     public void errorServidor() {
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         builder.setTitle("Error servidor")
-                .setMessage("A ocurrido un error intenet estamos trabajando. Intentar inciar mas tarde");
+                .setMessage("A ocurrido un error intenet estamos trabajando. Intentar inciar mas tarde")
+        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
 
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void mostrarPeliculasCache(LiveData<List<PeliculasEntidad>> peliculas) {
+        peliculas.observe(this, new Observer<List<PeliculasEntidad>>() {
+            @Override
+            public void onChanged(List<PeliculasEntidad> peliculasEntidads) {
+                if (peliculasEntidads.size()!=0){
+                    mostrarRecyclerView(peliculasEntidads);
+                    Toast.makeText(getContext(),"Se mostraran peliculas que tienes guardada en cache",Toast.LENGTH_LONG).show();
+                }else {
+                   reintentarLlamarPeliculas("Desea reintentar del nuevo","No hay conexion a internet",1);
+                }
+            }
+        });
     }
 }

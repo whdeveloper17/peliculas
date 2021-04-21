@@ -1,5 +1,7 @@
 package com.wilsonhernandez.peliculas.inicio;
 
+import androidx.lifecycle.LiveData;
+
 import com.wilsonhernandez.peliculas.inicio.model.DatosPeliculas;
 import com.wilsonhernandez.peliculas.room.entidad.PeliculasEntidad;
 
@@ -23,6 +25,8 @@ public interface InicioFragmentMVP {
         void actualizarRecyclerView(List<PeliculasEntidad> peliculasEntidads);
 
         void errorServidor();
+
+        void mostrarPeliculasCache(LiveData<List<PeliculasEntidad>> peliculas);
     }
 
     interface Present{
@@ -44,6 +48,8 @@ public interface InicioFragmentMVP {
         void solicitarPeliculasModel(int pagina);
 
         void solicitarMasPeliculasModel(int pagina);
+
+        LiveData<List<PeliculasEntidad>> obtenenerPeliculasRoom();
 
     }
 }

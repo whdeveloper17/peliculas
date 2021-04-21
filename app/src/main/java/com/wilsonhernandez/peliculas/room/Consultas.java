@@ -3,6 +3,8 @@ package com.wilsonhernandez.peliculas.room;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LiveData;
+
 import com.wilsonhernandez.peliculas.room.dao.PeliculasDao;
 import com.wilsonhernandez.peliculas.room.entidad.PeliculasEntidad;
 
@@ -50,4 +52,9 @@ public class Consultas {
             return true;
         }
     }
+
+    public LiveData<List<PeliculasEntidad>> solicitarPeliculas(){
+        return peliculasDao.getListaPelicula();
+    }
+
 }

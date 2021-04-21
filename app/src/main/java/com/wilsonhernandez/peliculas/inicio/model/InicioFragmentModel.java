@@ -3,6 +3,8 @@ package com.wilsonhernandez.peliculas.inicio.model;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import com.wilsonhernandez.peliculas.inicio.InicioFragmentMVP;
 import com.wilsonhernandez.peliculas.inicio.repositorio.InicioFragmentRepositorio;
 import com.wilsonhernandez.peliculas.inicio.repositorio.InicioFragmentRepositorioImpl;
@@ -87,6 +89,12 @@ public class InicioFragmentModel implements InicioFragmentMVP.Model {
 
             }
         });
+    }
+
+    @Override
+    public LiveData<List<PeliculasEntidad>> obtenenerPeliculasRoom() {
+
+        return consultas.solicitarPeliculas();
     }
 
     private List<PeliculasEntidad> organizarPeliculas(DatosPeliculas datosPeliculas){
